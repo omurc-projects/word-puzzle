@@ -1,4 +1,4 @@
-// script.js (SON VERSİYON - TÜM ÖZELLİKLER DAHİL)
+// script.js (OTOMATİK BİTİRME MANTIĞI DÜZELTİLMİŞ NİHAİ VERSİYON)
 
 const motivationalQuotes = [ "Hiç hata yapmamış bir insan, yeni bir şey denememiş demektir. - Albert Einstein", "Başarının sırrı, pes etmemektir. - Benjamin Franklin", "Yavaş gitmekten korkma, yerinde durmaktan kork. - Çin Atasözü", "Hatalar, denediğinizin kanıtıdır.", "En büyük zaferimiz hiç düşmemek değil, her düştüğümüzde yeniden ayağa kalkmaktır. - Konfüçyüs" ];
 let activeWordList = [];
@@ -8,6 +8,11 @@ let gameState = 'answering';
 let currentLevel = 'a1';
 let hintsUsed = 0;
 let hiddenIndices = new Set();
+let currentScore = 0;
+let highScore = 0;
+let wordHistory = [];
+
+// HTML Element Seçimleri
 const levelDisplay = document.getElementById('level-display');
 const levelButtons = document.querySelectorAll('.level-btn');
 const hintText = document.getElementById('hint-text');
@@ -23,25 +28,84 @@ const resultSpeaker = document.getElementById('result-speaker');
 const resultMeaning = document.getElementById('result-meaning');
 const resultImage = document.getElementById('result-image');
 const resultMessage = document.getElementById('result-message');
+const scoreDisplay = document.getElementById('score-display');
+const highScoreDisplay = document.getElementById('high-score-display');
+const historyContainer = document.querySelector('.history-container');
+const historyList = document.getElementById('history-list');
+
+// ---- FONKSİYONLAR ----
+function updateScoreDisplay() { scoreDisplay.textContent = currentScore; }
+function updateHighScoreDisplay() { highScoreDisplay.textContent = highScore; }
+
+function loadHighScore() {
+    const savedScore = localStorage.getItem('wordPuzzleHighScore');
+    highScore = savedScore ? parseInt(savedScore, 10) : 0;
+    updateHighScoreDisplay();
+}
+
+function updateHighScore() {
+    if (currentScore > highScore) {
+        highScore = currentScore;
+        localStorage.setItem('wordPuzzleHighScore', highScore);
+        updateHighScoreDisplay();
+    }
+}
+
+function updateHistoryDisplay(word, points, correct) {
+    wordHistory.push({ word, points });
+    const listItem = document.createElement('li');
+    const wordSpan = document.createElement('span');
+    wordSpan.classList.add('word');
+    wordSpan.textContent = word;
+    const pointsSpan = document.createElement('span');
+    pointsSpan.classList.add(correct ? 'points-correct' : 'points-incorrect');
+    pointsSpan.textContent = `${points} puan`;
+    listItem.appendChild(wordSpan);
+    listItem.appendChild(pointsSpan);
+    historyList.appendChild(listItem);
+    historyContainer.classList.remove('hidden');
+    historyContainer.scrollTop = historyContainer.scrollHeight;
+}
+
+function clearHistoryDisplay() {
+    wordHistory = [];
+    historyList.innerHTML = '';
+    historyContainer.classList.add('hidden');
+}
+
 function levelName(level) { return `Level: ${level.toUpperCase()} English`; }
+
 async function loadLevel(level) {
+    console.log("loadLevel fonksiyonu çağrıldı, seviye:", level);
     try {
         const response = await fetch(`${level}_words.json`);
-        if (!response.ok) { throw new Error('Kelime listesi yüklenemedi!'); }
+        console.log("Fetch response alındı:", response.status);
+        if (!response.ok) { throw new Error(`Kelime listesi yüklenemedi! Status: ${response.status}`); }
         const data = await response.json();
+        console.log("JSON verisi alındı, kelime sayısı:", data.length);
         activeWordList = data;
         usedWords = [];
         currentLevel = level;
         levelDisplay.textContent = levelName(level);
+        clearHistoryDisplay();
+        updateScoreDisplay();
         resetForNewWord();
-    } catch (error) { console.error(error); alert(`${level.toUpperCase()} seviyesi yüklenirken bir hata oluştu. Lütfen dosyanın mevcut olduğundan emin olun.`); }
+    } catch (error) {
+        console.error("Seviye yüklenirken hata oluştu:", error);
+        alert(`${level.toUpperCase()} seviyesi yüklenirken bir hata oluştu. Dosya adının doğru (${level}_words.json) ve dosyanın geçerli bir JSON içerdiğinden emin olun. Detaylar için Console'u kontrol edin.`);
+    }
 }
+
 function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
 function resetForNewWord() {
-    if (activeWordList.length === 0) return;
-    if (usedWords.length === activeWordList.length) { usedWords = []; }
+    console.log("resetForNewWord çağrıldı");
+    if (activeWordList.length === 0) { console.log("Aktif kelime listesi boş, resetForNewWord durduruldu."); return; }
+    if (usedWords.length === activeWordList.length) { usedWords = []; console.log("Seviye tamamlandı, kelime listesi sıfırlandı.");}
     do { currentWordData = getRandomItem(activeWordList); } while (usedWords.includes(currentWordData.word));
     usedWords.push(currentWordData.word);
+    console.log("Yeni kelime seçildi:", currentWordData.word);
+
     hintsUsed = 0;
     hiddenIndices.clear();
     puzzleWordContainer.classList.remove('long-word');
@@ -78,7 +142,10 @@ function resetForNewWord() {
     hintButton.disabled = hiddenIndices.size === 0;
     hintButton.textContent = `Harf Al (${3 - hintsUsed})`;
     gameState = 'answering';
+    console.log("resetForNewWord tamamlandı.");
 }
+
+// --- OTOMATİK BİTİRME MANTIĞI DÜZELTİLDİ ---
 function revealHintLetter() {
     if (hintsUsed >= 3 || hiddenIndices.size === 0 || gameState !== 'answering') { return; }
     hintsUsed++;
@@ -87,19 +154,30 @@ function revealHintLetter() {
     const correctLetter = currentWordData.word[randomIndex];
     const spanToReveal = puzzleWordContainer.querySelector(`.puzzle-letter[data-index='${randomIndex}']`);
     if (spanToReveal) { spanToReveal.textContent = correctLetter; spanToReveal.classList.add(`hint-letter-${hintsUsed}`); }
-    hiddenIndices.delete(randomIndex);
+    hiddenIndices.delete(randomIndex); // İndeksi gizlilerden çıkar
+
+    // --- ÖNEMLİ KONTROL BURADA ---
+    // Eğer bu harfi açınca HİÇ GİZLİ HARF KALMADIYSA, oyunu bitir.
     if (hiddenIndices.size === 0) {
         hintButton.textContent = `Harf Al (0)`;
         hintButton.disabled = true;
         gameState = 'proceeding';
         userInput.disabled = true;
-        showFailure(); // Bilememe ekranını göster
-        return;
+        showFailure(0); // Puan 0 olarak bilememe göster
+        return; // Fonksiyondan çık, aşağıdaki kontrolleri yapma
     }
+    // --- KONTROL SONU ---
+
+    // Kalan hakkı normal şekilde güncelle
     hintButton.textContent = `Harf Al (${3 - hintsUsed})`;
-    if (hintsUsed >= 3) { hintButton.disabled = true; }
+    // Eğer hak bittiyse butonu pasif yap
+    if (hintsUsed >= 3) {
+        hintButton.disabled = true;
+    }
 }
-function showFailure() {
+// --- DÜZELTME SONU ---
+
+function showFailure(points = 0) {
     resultContainer.classList.remove('hidden');
     resultImage.src = currentWordData.image || '';
     resultSpeaker.classList.remove('hidden');
@@ -111,6 +189,7 @@ function showFailure() {
     resultMessage.style.color = 'var(--text-color)';
     submitButton.style.display = "none";
     nextButton.classList.remove("hidden");
+    updateHistoryDisplay(currentWordData.word, points, false);
 }
 function checkAnswer() {
     const userAnswer = userInput.value.toUpperCase().trim();
@@ -119,17 +198,26 @@ function checkAnswer() {
     resultSpeaker.classList.remove('hidden');
     resultSpeaker.style.display = 'inline-block';
     hintButton.disabled = true;
+    let points = 0;
     if (userAnswer === currentWordData.word) {
+        points = Math.max(0, currentWordData.word.length * 100 - hintsUsed * 100);
+        currentScore += points;
+        updateScoreDisplay();
+        updateHighScore();
         resultAnswer.textContent = currentWordData.word;
         resultAnswer.style.color = 'var(--success-color)';
         resultMeaning.textContent = `Türkçe Anlamı: ${currentWordData.translation}`;
-        resultMessage.textContent = 'Harika! Doğru bildin! ✨';
+        resultMessage.textContent = `Harika! +${points} puan! ✨`;
         resultMessage.style.color = 'var(--success-color)';
         puzzleWordContainer.querySelectorAll('.puzzle-letter').forEach((span, index) => {
              span.textContent = currentWordData.word[index];
              span.classList.remove('hint-letter-1', 'hint-letter-2', 'hint-letter-3');
         });
-    } else { showFailure(); }
+        updateHistoryDisplay(currentWordData.word, points, true);
+    } else {
+        points = 0;
+        showFailure(points);
+    }
     userInput.disabled = true;
     submitButton.style.display = "none";
     nextButton.classList.remove("hidden");
@@ -165,8 +253,14 @@ speakerIcon.addEventListener('click', () => { speakWord(currentWordData.word); }
 resultSpeaker.addEventListener('click', () => { speakWord(currentWordData.word); });
 hintButton.addEventListener('click', revealHintLetter);
 (async () => {
-    if (typeof speechSynthesis !== 'undefined' && speechSynthesis.getVoices().length === 0) {
-       await new Promise(resolve => speechSynthesis.onvoiceschanged = resolve);
-    }
+    loadHighScore();
+    if (typeof speechSynthesis !== 'undefined') {
+        if (speechSynthesis.getVoices().length === 0) {
+            await new Promise(resolve => setTimeout(resolve, 50));
+            if (speechSynthesis.getVoices().length === 0) {
+                 await new Promise(resolve => speechSynthesis.onvoiceschanged = resolve);
+             }
+         }
+     }
     loadLevel('a1');
-})();
+})(); // <-- Kod burada bitmeli!
