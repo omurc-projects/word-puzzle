@@ -28,12 +28,13 @@
                 <p>💡 İpucu: <span id="hint-text"></span></p>
             </div>
             <div class="word-display-container">
-                <h1 id="puzzle-word">W _ R D</h1>
+                <div id="puzzle-word" class="puzzle-word-style"></div>
                 <span id="speaker-icon" class="hidden">🔊</span>
             </div>
             <div class="input-area-row">
-                <input type="text" id="user-input" placeholder="Cevabını buraya yaz ve Buldum'a bas..." autocomplete="off">
-                <button id="check-button">Buldum!</button>
+                <button id="hint-button">Harf Al (3)</button>
+                <input type="text" id="user-input" placeholder="Cevabını buraya yaz..." autocomplete="off">
+                <button id="submit-button">Buldum!</button>
             </div>
             <div id="result-container" class="hidden">
                 <div class="result-card">

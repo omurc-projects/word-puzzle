@@ -1,13 +1,18 @@
+/* style.css (TAŞMA SORUNU GİDERİLMİŞ VE YERLEŞİM GÜNCELLENMİŞ FİNAL) */
+
 :root {
     --background-color: #f5f6fa;
     --main-color: #4f8cff;
     --accent-color: #e3e7ee;
     --card-bg: #ffffff;
-    --header-bg: #ececec; /* header için soft gri */
+    --header-bg: #ececec;
     --text-color: #2f3640;
     --success-color: #7ed957;
     --error-color: #fd5e53;
     --border-color: #bfcbe6;
+    --hint-color-1: #FF0000; /* Red */
+    --hint-color-2: #FFA500; /* Orange */
+    --hint-color-3: #FFFF00; /* Yellow */
 }
 
 body {
@@ -32,7 +37,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 12px 18px;
-    background-color: var(--header-bg); /* gri renk */
+    background-color: var(--header-bg);
     color: #333;
     border-radius: 16px 16px 0 0;
     box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
@@ -59,40 +64,26 @@ header {
 
 /* Responsive ayarlar */
 @media (max-width: 600px) {
-    .game-container {
-        max-width: 98vw;
-        padding: 0;
-    }
-    header, .card {
-        padding: 10px 6px;
-        border-radius: 12px;
-    }
-    #puzzle-word {
-        font-size: 1.3rem;
-        letter-spacing: 2px;
-    }
-    #result-image {
-        max-height: 140px;
-        max-width: 160px;
-    }
-    #user-input {
-        font-size: 1rem;
-        padding: 10px;
-    }
-    .input-area-row {
-        gap: 4px;
-    }
-    #check-button, #next-button {
-        padding: 10px 12px;
-        font-size: 0.95rem;
-    }
-    .level-selector {
-        gap: 4px;
-    }
-    .result-card {
-        padding: 10px 6px;
+    .game-container { max-width: 98vw; padding: 0; }
+    header, .card { padding: 10px 6px; border-radius: 12px; }
+    .puzzle-word-style { font-size: 1.3rem !important; letter-spacing: 2px !important; }
+    .puzzle-word-style.long-word { font-size: 1.1rem !important; letter-spacing: 1px !important; }
+    #result-image { max-height: 140px; max-width: 160px; }
+    #user-input { font-size: 0.7rem; padding: 10px; }
+    .input-area-row { gap: 6px; flex-wrap: wrap; } /* Wrap ekli */
+    #submit-button, #hint-button, #next-button { padding: 10px 10px; font-size: 0.9rem; flex-grow: 1; min-width: 70px; }
+    .level-selector { gap: 4px; }
+    .result-card { padding: 10px 6px; }
+     /* Küçük ekranda input'u başa alabiliriz istenirse */
+     .input-area-row {
+         /* order özelliği flex item'ların sırasını değiştirir */
+         /* #user-input { order: 1; flex-basis: 100%; margin-bottom: 6px;} */
+         /* #hint-button { order: 2; } */
+         /* #submit-button { order: 3; } */
+         /* Yukarıdaki order'ları açarsak küçük ekranda input üste geçer */
     }
 }
+
 
 .level-selector {
     display: flex;
@@ -115,85 +106,83 @@ header {
     box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06);
 }
 
-.level-btn.active {
-    background-color: var(--main-color);
-    color: #fff;
-    border-color: var(--main-color);
-}
+.level-btn.active { background-color: var(--main-color); color: #fff; border-color: var(--main-color); }
+.level-btn:hover { background-color: #e8f0fe; border-color: var(--main-color); color: var(--main-color); }
 
-.level-btn:hover {
-    background-color: #e8f0fe;
-    border-color: var(--main-color);
-    color: var(--main-color);
-}
+.hint-container p { font-size: 1.05rem; margin-bottom: 18px; color: var(--main-color); }
 
-.hint-container p {
-    font-size: 1.05rem;
-    margin-bottom: 18px;
-    color: var(--main-color);
-}
+.word-display-container { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 16px; }
 
-.word-display-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-#puzzle-word {
-    font-size: 2rem;
-    font-weight: 700;
+.puzzle-word-style {
+    font-size: 2.2rem;
     letter-spacing: 4px;
-    margin-bottom: 0;
-    transition: font-size 0.3s, letter-spacing 0.3s;
+    font-weight: 700;
     word-break: break-word;
-    line-height: 1.25;
+    line-height: 1.3;
+    transition: font-size 0.3s ease, letter-spacing 0.3s ease;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.2em;
+    margin-bottom: 0;
 }
+.puzzle-word-style.long-word { font-size: 1.7rem; letter-spacing: 2px; }
+.puzzle-letter { display: inline-block; min-width: 0.6em; text-align: center; }
 
-#puzzle-word.long-word {
-    font-size: 1.3rem;
-    letter-spacing: 2px;
-}
+#speaker-icon, #result-speaker { font-size: 1.6rem; cursor: pointer; transition: transform 0.18s; }
+#speaker-icon:hover, #result-speaker:hover { transform: scale(1.14); }
+#speaker-icon.hidden, #result-speaker.hidden { display: none; }
 
-#speaker-icon,
-#result-speaker {
-    font-size: 1.6rem;
-    cursor: pointer;
-    transition: transform 0.18s;
-}
-#speaker-icon:hover,
-#result-speaker:hover { transform: scale(1.14); }
-#speaker-icon.hidden,
-#result-speaker.hidden { display: none; }
-
+/* Input alanı ve butonların olduğu satır */
 .input-area-row {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: nowrap; /* Varsayılan olarak alt satıra geçmesin */
     gap: 8px;
     width: 100%;
     margin-bottom: 16px;
+    align-items: stretch;
 }
 
+/* Harf Al Butonu (Önce Geliyor) */
+#hint-button {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    padding: 12px 14px;
+    border-radius: 7px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+#hint-button:hover { background-color: #dce1e9; border-color: var(--main-color); }
+#hint-button:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--accent-color); border-color: var(--border-color); }
+
+/* Input Alanı (Ortada) */
 #user-input {
-    flex: 1 1 0%;
+    flex-grow: 1; /* Esnesin */
+    flex-basis: 150px;
     padding: 12px;
     border: 2px solid var(--border-color);
     border-radius: 7px;
-    font-size: 0.80rem;
+    font-size: 0.8rem;
     text-align: center;
     background-color: var(--accent-color);
     transition: border-color 0.3s;
     margin-bottom: 0;
     box-sizing: border-box;
+    min-width: 80px; /* Çok küçülmesin */
 }
 
-#check-button, #next-button {
-    padding: 12px 18px;
+/* Buldum Butonu (Sonda) */
+#submit-button {
     background-color: var(--main-color);
     color: #fff;
     border: none;
+    padding: 12px 18px;
     border-radius: 7px;
     font-size: 1.05rem;
     font-weight: 700;
@@ -201,72 +190,40 @@ header {
     transition: background-color 0.3s;
     box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06);
     white-space: nowrap;
+    flex-shrink: 0;
 }
+#submit-button:hover { background-color: #386dcf; }
 
-#check-button:hover, #next-button:hover {
-    background-color: #386dcf;
-}
-
-#result-container {
-    margin-bottom: 10px;
-}
-#result-container.hidden { display: none; }
-
-.result-card {
-    background: var(--accent-color);
-    border-radius: 12px;
-    padding: 16px 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.04);
-    margin-bottom: 4px;
-}
-
-.result-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1.15rem;
-    font-weight: bold;
-    margin-bottom: 1px;
-    color: var(--success-color);
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.result-meaning-row {
-    font-size: 1.01rem;
-    color: var(--main-color);
-    margin-bottom: 2px;
-    width: 100%;
-    text-align: center;
-}
-
+/* Sonraki Kelime Butonu */
 #next-button {
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 7px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06);
+    white-space: nowrap;
     margin: 8px 0 0 0;
     width: 100%;
 }
+#next-button:hover { background-color: #386dcf; }
+#next-button.hidden { display: none; }
 
-.result-image-row {
-    margin: 4px 0 4px 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.result-image-row img {
-    max-width: 160px;
-    max-height: 140px;
-    border-radius: 7px;
-    background: var(--card-bg);
-}
+/* Sonuç Kartı Stilleri */
+#result-container { margin-top: 20px; margin-bottom: 10px; }
+#result-container.hidden { display: none; }
+.result-card { background: var(--accent-color); border-radius: 12px; padding: 16px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.04); margin-bottom: 4px; }
+.result-row { display: flex; align-items: center; gap: 8px; font-size: 1.15rem; font-weight: bold; margin-bottom: 1px; justify-content: center; flex-wrap: wrap; }
+.result-meaning-row { font-size: 1.05rem; font-weight: bold; color: var(--main-color); margin-bottom: 10px; width: 100%; text-align: center; }
+.result-image-row { margin: 4px 0 10px 0; width: 100%; display: flex; justify-content: center; align-items: center; }
+.result-image-row img { max-width: 160px; max-height: 140px; border-radius: 7px; background: var(--card-bg); }
+.result-message-row { font-size: 1rem; font-style: italic; margin-top: 2px; text-align: center; }
 
-.result-message-row {
-    font-size: 1rem;
-    color: var(--success-color);
-    font-style: italic;
-    margin-top: 2px;
-    text-align: center;
-}
+/* İPUCU RENKLERİ */
+.hint-letter-1 { color: var(--hint-color-1); font-weight: bold; }
+.hint-letter-2 { color: var(--hint-color-2); font-weight: bold; }
+.hint-letter-3 { color: var(--hint-color-3); font-weight: bold; text-shadow: 0 0 1px rgba(0,0,0,0.5); }
