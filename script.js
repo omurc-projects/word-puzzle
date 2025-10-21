@@ -1,4 +1,4 @@
-// script.js (OTOMATİK BİTİRME MANTIĞI DÜZELTİLMİŞ NİHAİ VERSİYON)
+// script.js (PAYLAŞIM ODAĞI METNE ALINMIŞ NİHAİ VERSİYON)
 
 const motivationalQuotes = [ "Hiç hata yapmamış bir insan, yeni bir şey denememiş demektir. - Albert Einstein", "Başarının sırrı, pes etmemektir. - Benjamin Franklin", "Yavaş gitmekten korkma, yerinde durmaktan kork. - Çin Atasözü", "Hatalar, denediğinizin kanıtıdır.", "En büyük zaferimiz hiç düşmemek değil, her düştüğümüzde yeniden ayağa kalkmaktır. - Konfüçyüs" ];
 let activeWordList = [];
@@ -32,27 +32,15 @@ const scoreDisplay = document.getElementById('score-display');
 const highScoreDisplay = document.getElementById('high-score-display');
 const historyContainer = document.querySelector('.history-container');
 const historyList = document.getElementById('history-list');
+const shareButton = document.getElementById('share-button');
 
 // ---- FONKSİYONLAR ----
 function updateScoreDisplay() { scoreDisplay.textContent = currentScore; }
 function updateHighScoreDisplay() { highScoreDisplay.textContent = highScore; }
-
-function loadHighScore() {
-    const savedScore = localStorage.getItem('wordPuzzleHighScore');
-    highScore = savedScore ? parseInt(savedScore, 10) : 0;
-    updateHighScoreDisplay();
-}
-
-function updateHighScore() {
-    if (currentScore > highScore) {
-        highScore = currentScore;
-        localStorage.setItem('wordPuzzleHighScore', highScore);
-        updateHighScoreDisplay();
-    }
-}
-
+function loadHighScore() { const savedScore = localStorage.getItem('wordPuzzleHighScore'); highScore = savedScore ? parseInt(savedScore, 10) : 0; updateHighScoreDisplay(); }
+function updateHighScore() { if (currentScore > highScore) { highScore = currentScore; localStorage.setItem('wordPuzzleHighScore', highScore); updateHighScoreDisplay(); } }
 function updateHistoryDisplay(word, points, correct) {
-    wordHistory.push({ word, points });
+    wordHistory.push({ word, points, correct });
     const listItem = document.createElement('li');
     const wordSpan = document.createElement('span');
     wordSpan.classList.add('word');
@@ -65,16 +53,15 @@ function updateHistoryDisplay(word, points, correct) {
     historyList.appendChild(listItem);
     historyContainer.classList.remove('hidden');
     historyContainer.scrollTop = historyContainer.scrollHeight;
+    shareButton.disabled = !navigator.share; // Enable/disable based on support
 }
-
 function clearHistoryDisplay() {
     wordHistory = [];
     historyList.innerHTML = '';
     historyContainer.classList.add('hidden');
+    shareButton.disabled = true; // Disable when history is cleared
 }
-
 function levelName(level) { return `Level: ${level.toUpperCase()} English`; }
-
 async function loadLevel(level) {
     console.log("loadLevel fonksiyonu çağrıldı, seviye:", level);
     try {
@@ -85,27 +72,26 @@ async function loadLevel(level) {
         console.log("JSON verisi alındı, kelime sayısı:", data.length);
         activeWordList = data;
         usedWords = [];
-        currentLevel = level;
+        currentLevel = level; // Update current level tracking
         levelDisplay.textContent = levelName(level);
         clearHistoryDisplay();
+        // Reset score per level if desired, or keep cumulative
+        // currentScore = 0;
         updateScoreDisplay();
         resetForNewWord();
     } catch (error) {
         console.error("Seviye yüklenirken hata oluştu:", error);
-        alert(`${level.toUpperCase()} seviyesi yüklenirken bir hata oluştu. Dosya adının doğru (${level}_words.json) ve dosyanın geçerli bir JSON içerdiğinden emin olun. Detaylar için Console'u kontrol edin.`);
+        alert(`${level.toUpperCase()} seviyesi yüklenirken bir hata oluştu...`);
     }
 }
-
 function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
 function resetForNewWord() {
     console.log("resetForNewWord çağrıldı");
-    if (activeWordList.length === 0) { console.log("Aktif kelime listesi boş, resetForNewWord durduruldu."); return; }
-    if (usedWords.length === activeWordList.length) { usedWords = []; console.log("Seviye tamamlandı, kelime listesi sıfırlandı.");}
+    if (activeWordList.length === 0) { console.log("Aktif kelime listesi boş..."); return; }
+    if (usedWords.length === activeWordList.length) { usedWords = []; console.log("Seviye tamamlandı...");}
     do { currentWordData = getRandomItem(activeWordList); } while (usedWords.includes(currentWordData.word));
     usedWords.push(currentWordData.word);
     console.log("Yeni kelime seçildi:", currentWordData.word);
-
     hintsUsed = 0;
     hiddenIndices.clear();
     puzzleWordContainer.classList.remove('long-word');
@@ -144,8 +130,6 @@ function resetForNewWord() {
     gameState = 'answering';
     console.log("resetForNewWord tamamlandı.");
 }
-
-// --- OTOMATİK BİTİRME MANTIĞI DÜZELTİLDİ ---
 function revealHintLetter() {
     if (hintsUsed >= 3 || hiddenIndices.size === 0 || gameState !== 'answering') { return; }
     hintsUsed++;
@@ -154,29 +138,18 @@ function revealHintLetter() {
     const correctLetter = currentWordData.word[randomIndex];
     const spanToReveal = puzzleWordContainer.querySelector(`.puzzle-letter[data-index='${randomIndex}']`);
     if (spanToReveal) { spanToReveal.textContent = correctLetter; spanToReveal.classList.add(`hint-letter-${hintsUsed}`); }
-    hiddenIndices.delete(randomIndex); // İndeksi gizlilerden çıkar
-
-    // --- ÖNEMLİ KONTROL BURADA ---
-    // Eğer bu harfi açınca HİÇ GİZLİ HARF KALMADIYSA, oyunu bitir.
+    hiddenIndices.delete(randomIndex);
     if (hiddenIndices.size === 0) {
         hintButton.textContent = `Harf Al (0)`;
         hintButton.disabled = true;
         gameState = 'proceeding';
         userInput.disabled = true;
-        showFailure(0); // Puan 0 olarak bilememe göster
-        return; // Fonksiyondan çık, aşağıdaki kontrolleri yapma
+        showFailure(0);
+        return;
     }
-    // --- KONTROL SONU ---
-
-    // Kalan hakkı normal şekilde güncelle
     hintButton.textContent = `Harf Al (${3 - hintsUsed})`;
-    // Eğer hak bittiyse butonu pasif yap
-    if (hintsUsed >= 3) {
-        hintButton.disabled = true;
-    }
+    if (hintsUsed >= 3) { hintButton.disabled = true; }
 }
-// --- DÜZELTME SONU ---
-
 function showFailure(points = 0) {
     resultContainer.classList.remove('hidden');
     resultImage.src = currentWordData.image || '';
@@ -233,34 +206,39 @@ function speakWord(word) {
     if (preferredVoice) { utterance.voice = preferredVoice; } else { utterance.lang = 'en-US'; }
     window.speechSynthesis.speak(utterance);
 }
-levelButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        levelButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        const level = button.dataset.level;
-        loadLevel(level);
-    });
-});
+async function shareHistory() {
+    if (!navigator.share) { alert("Tarayıcınız veya cihazınız bu paylaşım özelliğini desteklemiyor."); return; }
+    if (wordHistory.length === 0) { alert("Paylaşılacak bir oyun geçmişi yok."); return; }
+    let shareText = `Word Puzzle (${currentLevel.toUpperCase()}) Oyun Geçmişim:\n\n`;
+    wordHistory.forEach(item => { shareText += `- ${item.word}: ${item.points} puan ${item.correct ? '✅' : '❌'}\n`; });
+    shareText += `\nToplam Skor: ${currentScore}\nEn Yüksek Skor: ${highScore}\n`;
+    // --- BURAYA GITHUB PAGES LİNKİNİ EKLE ---
+    const gameUrl = "https://omurc-projects.github.io/word-puzzle/"; // KENDİ LİNKİNLE DEĞİŞTİR
+    shareText += `\nSen de dene: ${gameUrl}`;
+    try {
+        // --- DEĞİŞİKLİK BURADA: URL PARAMETRESİNİ SİLDİK ---
+        await navigator.share({
+            title: `Word Puzzle Oyun Geçmişim (${currentLevel.toUpperCase()})`,
+            text: shareText
+            // url: gameUrl // <-- BU SATIRI SİLDİK VEYA YORUM SATIRI YAPTIK
+        });
+        console.log('İçerik başarıyla paylaşıldı.');
+    } catch (error) {
+        console.error('Paylaşım sırasında hata:', error);
+        if (error.name !== 'AbortError') { alert('Paylaşım sırasında bir hata oluştu.'); }
+    }
+}
+levelButtons.forEach(button => { button.addEventListener('click', () => { levelButtons.forEach(btn => btn.classList.remove('active')); button.classList.add('active'); const level = button.dataset.level; loadLevel(level); }); });
 submitButton.addEventListener('click', () => { if (gameState === 'answering') { checkAnswer(); } });
 nextButton.addEventListener('click', () => { if (gameState === 'proceeding') { resetForNewWord(); } });
-userInput.addEventListener('keyup', function(event) {
-    if (event.key === 'Enter') {
-        if (gameState === 'answering') { submitButton.click(); }
-        else if (gameState === 'proceeding') { nextButton.click(); }
-    }
-});
+userInput.addEventListener('keyup', function(event) { if (event.key === 'Enter') { if (gameState === 'answering') { submitButton.click(); } else if (gameState === 'proceeding') { nextButton.click(); } } });
 speakerIcon.addEventListener('click', () => { speakWord(currentWordData.word); });
 resultSpeaker.addEventListener('click', () => { speakWord(currentWordData.word); });
 hintButton.addEventListener('click', revealHintLetter);
+shareButton.addEventListener('click', shareHistory);
 (async () => {
     loadHighScore();
-    if (typeof speechSynthesis !== 'undefined') {
-        if (speechSynthesis.getVoices().length === 0) {
-            await new Promise(resolve => setTimeout(resolve, 50));
-            if (speechSynthesis.getVoices().length === 0) {
-                 await new Promise(resolve => speechSynthesis.onvoiceschanged = resolve);
-             }
-         }
-     }
+    if (typeof navigator.share === 'undefined') { shareButton.disabled = true; } else { shareButton.disabled = true; } // Başta yine de pasif
+    if (typeof speechSynthesis !== 'undefined') { if (speechSynthesis.getVoices().length === 0) { await new Promise(resolve => setTimeout(resolve, 50)); if (speechSynthesis.getVoices().length === 0) { await new Promise(resolve => speechSynthesis.onvoiceschanged = resolve); } } }
     loadLevel('a1');
-})(); // <-- Kod burada bitmeli!
+})();
