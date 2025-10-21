@@ -1,4 +1,4 @@
-/* style.css (TAŞMA SORUNU GİDERİLMİŞ VE YERLEŞİM GÜNCELLENMİŞ FİNAL) */
+/* style.css (RGB HINT RENKLERİYLE FİNAL VERSİYON) */
 
 :root {
     --background-color: #f5f6fa;
@@ -10,9 +10,11 @@
     --success-color: #7ed957;
     --error-color: #fd5e53;
     --border-color: #bfcbe6;
+    /* --- YENİ RENKLER --- */
     --hint-color-1: #FF0000; /* Red */
-    --hint-color-2: #FFA500; /* Orange */
-    --hint-color-3: #FFFF00; /* Yellow */
+    --hint-color-2: #008000; /* Green */
+    --hint-color-3: #0000FF; /* Blue */
+    /* --- YENİ RENKLER SONU --- */
 }
 
 body {
@@ -69,12 +71,11 @@ header {
     .puzzle-word-style { font-size: 1.3rem !important; letter-spacing: 2px !important; }
     .puzzle-word-style.long-word { font-size: 1.1rem !important; letter-spacing: 1px !important; }
     #result-image { max-height: 140px; max-width: 160px; }
-    #user-input { font-size: 0.7rem; padding: 10px; }
-    .input-area-row { gap: 6px; flex-wrap: wrap; } /* Wrap ekli */
+    #user-input { font-size: 1rem; padding: 10px; }
+    .input-area-row { gap: 6px; flex-wrap: wrap; }
     #submit-button, #hint-button, #next-button { padding: 10px 10px; font-size: 0.9rem; flex-grow: 1; min-width: 70px; }
     .level-selector { gap: 4px; }
     .result-card { padding: 10px 6px; }
-     /* Küçük ekranda input'u başa alabiliriz istenirse */
      .input-area-row {
          /* order özelliği flex item'ların sırasını değiştirir */
          /* #user-input { order: 1; flex-basis: 100%; margin-bottom: 6px;} */
@@ -133,17 +134,15 @@ header {
 #speaker-icon:hover, #result-speaker:hover { transform: scale(1.14); }
 #speaker-icon.hidden, #result-speaker.hidden { display: none; }
 
-/* Input alanı ve butonların olduğu satır */
 .input-area-row {
     display: flex;
-    flex-wrap: nowrap; /* Varsayılan olarak alt satıra geçmesin */
+    flex-wrap: nowrap;
     gap: 8px;
     width: 100%;
     margin-bottom: 16px;
     align-items: stretch;
 }
 
-/* Harf Al Butonu (Önce Geliyor) */
 #hint-button {
     background-color: var(--accent-color);
     color: var(--text-color);
@@ -161,23 +160,21 @@ header {
 #hint-button:hover { background-color: #dce1e9; border-color: var(--main-color); }
 #hint-button:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--accent-color); border-color: var(--border-color); }
 
-/* Input Alanı (Ortada) */
 #user-input {
-    flex-grow: 1; /* Esnesin */
+    flex-grow: 1;
     flex-basis: 150px;
     padding: 12px;
     border: 2px solid var(--border-color);
     border-radius: 7px;
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-align: center;
     background-color: var(--accent-color);
     transition: border-color 0.3s;
     margin-bottom: 0;
     box-sizing: border-box;
-    min-width: 80px; /* Çok küçülmesin */
+    min-width: 80px;
 }
 
-/* Buldum Butonu (Sonda) */
 #submit-button {
     background-color: var(--main-color);
     color: #fff;
@@ -194,7 +191,6 @@ header {
 }
 #submit-button:hover { background-color: #386dcf; }
 
-/* Sonraki Kelime Butonu */
 #next-button {
     background-color: var(--main-color);
     color: #fff;
@@ -213,7 +209,6 @@ header {
 #next-button:hover { background-color: #386dcf; }
 #next-button.hidden { display: none; }
 
-/* Sonuç Kartı Stilleri */
 #result-container { margin-top: 20px; margin-bottom: 10px; }
 #result-container.hidden { display: none; }
 .result-card { background: var(--accent-color); border-radius: 12px; padding: 16px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.04); margin-bottom: 4px; }
@@ -223,7 +218,13 @@ header {
 .result-image-row img { max-width: 160px; max-height: 140px; border-radius: 7px; background: var(--card-bg); }
 .result-message-row { font-size: 1rem; font-style: italic; margin-top: 2px; text-align: center; }
 
-/* İPUCU RENKLERİ */
-.hint-letter-1 { color: var(--hint-color-1); font-weight: bold; }
-.hint-letter-2 { color: var(--hint-color-2); font-weight: bold; }
-.hint-letter-3 { color: var(--hint-color-3); font-weight: bold; text-shadow: 0 0 1px rgba(0,0,0,0.5); }
+/* VURGULAMA ANİMASYONU VE KIRMIZI RENK */
+.highlight { animation: highlight-answer 0.8s ease-in-out; display: inline-block; padding: 5px 10px; border-radius: 8px; }
+@keyframes highlight-answer { 0% { transform: scale(1); background-color: transparent; } 50% { transform: scale(1.05); background-color: rgba(174, 198, 207, 0.3); } 100% { transform: scale(1); background-color: transparent; } }
+.incorrect-answer-text { color: var(--error-color) !important; }
+
+/* --- GÜNCELLENEN İPUCU RENKLERİ --- */
+.hint-letter-1 { color: var(--hint-color-1); font-weight: bold; } /* Kırmızı */
+.hint-letter-2 { color: var(--hint-color-2); font-weight: bold; } /* Yeşil */
+.hint-letter-3 { color: var(--hint-color-3); font-weight: bold; } /* Mavi */
+/* --- GÜNCELLENEN İPUCU RENKLERİ SONU --- */
