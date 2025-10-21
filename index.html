@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <div class="logo">Word Puzzle</div>
+            <div class="level" id="level-display">Level: A1 English</div>
+        </header>
+        <main class="card">
+            <div class="level-selector">
+                <button class="level-btn active" data-level="a1">A1</button>
+                <button class="level-btn" data-level="a2">A2</button>
+                <button class="level-btn" data-level="b1">B1</button>
+                <button class="level-btn" data-level="b2">B2</button>
+                <button class="level-btn" data-level="c1">C1</button>
+                <button class="level-btn" data-level="c2">C2</button>
+            </div>
+            <div class="hint-container">
+                <p>💡 İpucu: <span id="hint-text"></span></p>
+            </div>
+            <div class="word-display-container">
+                <h1 id="puzzle-word">W _ R D</h1>
+                <span id="speaker-icon" class="hidden">🔊</span>
+            </div>
+            <div class="input-area-row">
+                <input type="text" id="user-input" placeholder="Cevabını buraya yaz ve Buldum'a bas..." autocomplete="off">
+                <button id="check-button">Buldum!</button>
+            </div>
+            <div id="result-container" class="hidden">
+                <div class="result-card">
+                    <div class="result-row">
+                        <span id="result-answer"></span>
+                        <span id="result-speaker" class="hidden">🔊</span>
+                    </div>
+                    <div class="result-meaning-row">
+                        <span id="result-meaning"></span>
+                    </div>
+                    <button id="next-button" class="hidden">Sonraki Kelime →</button>
+                    <div class="result-image-row">
+                        <img id="result-image" src="" alt="Kelimenin görseli">
+                    </div>
+                    <div class="result-message-row">
+                        <span id="result-message"></span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

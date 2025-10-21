@@ -1,0 +1,272 @@
+:root {
+    --background-color: #f5f6fa;
+    --main-color: #4f8cff;
+    --accent-color: #e3e7ee;
+    --card-bg: #ffffff;
+    --header-bg: #ececec; /* header için soft gri */
+    --text-color: #2f3640;
+    --success-color: #7ed957;
+    --error-color: #fd5e53;
+    --border-color: #bfcbe6;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background-color: var(--header-bg); /* gri renk */
+    color: #333;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: 1px;
+}
+
+.level {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 22px 16px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 12px rgba(79, 140, 255, 0.07);
+    text-align: center;
+}
+
+/* Responsive ayarlar */
+@media (max-width: 600px) {
+    .game-container {
+        max-width: 98vw;
+        padding: 0;
+    }
+    header, .card {
+        padding: 10px 6px;
+        border-radius: 12px;
+    }
+    #puzzle-word {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+    }
+    #result-image {
+        max-height: 140px;
+        max-width: 160px;
+    }
+    #user-input {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    .input-area-row {
+        gap: 4px;
+    }
+    #check-button, #next-button {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+    .level-selector {
+        gap: 4px;
+    }
+    .result-card {
+        padding: 10px 6px;
+    }
+}
+
+.level-selector {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.level-btn {
+    padding: 6px 14px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    border: 2px solid var(--border-color);
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border-radius: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06);
+}
+
+.level-btn.active {
+    background-color: var(--main-color);
+    color: #fff;
+    border-color: var(--main-color);
+}
+
+.level-btn:hover {
+    background-color: #e8f0fe;
+    border-color: var(--main-color);
+    color: var(--main-color);
+}
+
+.hint-container p {
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+    color: var(--main-color);
+}
+
+.word-display-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+#puzzle-word {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 0;
+    transition: font-size 0.3s, letter-spacing 0.3s;
+    word-break: break-word;
+    line-height: 1.25;
+}
+
+#puzzle-word.long-word {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+}
+
+#speaker-icon,
+#result-speaker {
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: transform 0.18s;
+}
+#speaker-icon:hover,
+#result-speaker:hover { transform: scale(1.14); }
+#speaker-icon.hidden,
+#result-speaker.hidden { display: none; }
+
+.input-area-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+#user-input {
+    flex: 1 1 0%;
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 7px;
+    font-size: 0.80rem;
+    text-align: center;
+    background-color: var(--accent-color);
+    transition: border-color 0.3s;
+    margin-bottom: 0;
+    box-sizing: border-box;
+}
+
+#check-button, #next-button {
+    padding: 12px 18px;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06);
+    white-space: nowrap;
+}
+
+#check-button:hover, #next-button:hover {
+    background-color: #386dcf;
+}
+
+#result-container {
+    margin-bottom: 10px;
+}
+#result-container.hidden { display: none; }
+
+.result-card {
+    background: var(--accent-color);
+    border-radius: 12px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.04);
+    margin-bottom: 4px;
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-bottom: 1px;
+    color: var(--success-color);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.result-meaning-row {
+    font-size: 1.01rem;
+    color: var(--main-color);
+    margin-bottom: 2px;
+    width: 100%;
+    text-align: center;
+}
+
+#next-button {
+    margin: 8px 0 0 0;
+    width: 100%;
+}
+
+.result-image-row {
+    margin: 4px 0 4px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.result-image-row img {
+    max-width: 160px;
+    max-height: 140px;
+    border-radius: 7px;
+    background: var(--card-bg);
+}
+
+.result-message-row {
+    font-size: 1rem;
+    color: var(--success-color);
+    font-style: italic;
+    margin-top: 2px;
+    text-align: center;
+}
