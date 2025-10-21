@@ -187,3 +187,30 @@ header {
 #history-list .points-correct { color: var(--success-color); font-weight: bold; }
 #history-list .points-incorrect { color: var(--error-color); font-weight: bold; }
 /* YENİ OYUN GEÇMİŞİ STİLLERİ SONU */
+/* style.css dosyasının EN ALTINA eklenecekler */
+
+#share-button {
+    display: block; /* Tam satırı kaplasın */
+    width: 100%;
+    margin-top: 15px; /* Listenin altına boşluk */
+    padding: 10px 15px;
+    background-color: var(--success-color); /* Başarı rengiyle uyumlu */
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 8px rgba(126, 217, 87, 0.2); /* Yeşil gölge */
+}
+
+#share-button:hover {
+    background-color: #68b74a; /* Hover rengi */
+}
+
+#share-button:disabled { /* API desteklenmiyorsa pasif görünüm */
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
