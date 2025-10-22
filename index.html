@@ -33,8 +33,7 @@
             </div>
             <div class="word-display-container">
                 <div id="puzzle-word" class="puzzle-word-style"></div>
-                <span id="speaker-icon" class="hidden">🔊</span>
-            </div>
+                <span id="speaker-icon" class="hidden">🔊</span> </div>
             <div class="input-area-row">
                 <button id="hint-button">Harf Al (3)</button>
                 <input type="text" id="user-input" placeholder="Cevabını buraya yaz..." autocomplete="off">
@@ -44,15 +43,20 @@
                 <div class="result-card">
                     <div class="result-row">
                         <span id="result-answer"></span>
-                        <span id="result-speaker" class="hidden">🔊</span>
-                    </div>
+                        <span id="result-speaker" class="hidden">🔊</span> </div>
                     <div class="result-meaning-row">
                         <span id="result-meaning"></span>
                     </div>
-                    <button id="next-button" class="hidden">Sonraki Kelime →</button>
+                    <div class="result-sentence-row hidden">
+                        <p id="result-sentence"></p>
+                        <span id="sentence-speaker" class="hidden">🔊</span> </div>
+                    <div class="result-sentence-translation-row hidden">
+                        <p id="result-sentence-translation"></p>
+                    </div>
                     <div class="result-image-row">
                         <img id="result-image" src="" alt="Kelimenin görseli">
                     </div>
+                    <button id="next-button" class="hidden">Sonraki Kelime →</button>
                     <div class="result-message-row">
                         <span id="result-message"></span>
                     </div>
@@ -61,11 +65,10 @@
         </main>
          <div class="history-container hidden">
             <h2>Oyun Geçmişi</h2>
-            <ul id="history-list">
-                </ul>
+            <ul id="history-list"></ul>
             <button id="share-button">Geçmişi Paylaş 📲</button>
         </div>
-         </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
