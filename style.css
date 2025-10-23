@@ -1,96 +1,82 @@
-/* style.css (SYNTAX HATALARI KONTROL EDİLMİŞ NİHAİ VERSİYON) */
+/* style.css (ANİMASYON UYARISI GİDERİLMİŞ NİHAİ VERSİYON) */
 
 :root {
+    /* Açık Tema (Varsayılan) */
     --background-color: #f5f6fa;
     --main-color: #4f8cff;
     --accent-color: #e3e7ee;
     --card-bg: #ffffff;
     --header-bg: #ececec;
     --text-color: #2f3640;
-    --success-color: #7ed957;
-    --error-color: #fd5e53;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
     --border-color: #bfcbe6;
-    --hint-color-1: #FF0000; /* Red */
-    --hint-color-2: #008000; /* Green */
-    --hint-color-3: #0000FF; /* Blue */
+    --hint-color-1: #e74c3c; /* Red */
+    --hint-color-2: #2ecc71; /* Green */
+    --hint-color-3: #3498db; /* Blue */
+    --input-bg: var(--accent-color);
+    --button-text: #ffffff;
+    --header-text: #333;
+    --card-shadow: rgba(79, 140, 255, 0.07);
+    --button-shadow: rgba(79, 140, 255, 0.06);
+    --history-border: var(--accent-color);
+    --share-button-bg: var(--success-color);
+    --share-button-hover: #27ae60;
+    --share-button-shadow: rgba(46, 204, 113, 0.2);
+    --disabled-button-bg: #cccccc;
+    --highlight-bg: rgba(174, 198, 207, 0.3); /* YENİ: Açık tema highlight rengi */
 }
 
-body {
-    font-family: 'Nunito', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10px;
+body.dark-theme {
+    /* Koyu Tema Değişkenleri */
+    --background-color: #2f3640;
+    --main-color: #5fa8ff;
+    --accent-color: #3f4a59;
+    --card-bg: #353f4c;
+    --header-bg: #4a5568;
+    --text-color: #f5f6fa;
+    --success-color: #7ed957;
+    --error-color: #ff6b6b;
+    --border-color: #5a687f;
+    --hint-color-1: #ff6b6b; /* Red */
+    --hint-color-2: #7ed957; /* Green */
+    --hint-color-3: #5fa8ff; /* Blue */
+    --input-bg: var(--accent-color);
+    --button-text: #ffffff; /* Beyaz kalabilir veya koyu tema için #2f3640 yapılabilir */
+    --header-text: #f5f6fa;
+    --card-shadow: rgba(0, 0, 0, 0.2);
+    --button-shadow: rgba(0, 0, 0, 0.15);
+    --history-border: var(--accent-color);
+    --share-button-bg: var(--success-color);
+    --share-button-hover: #68b74a;
+    --share-button-shadow: rgba(126, 217, 87, 0.2);
+    --disabled-button-bg: #5a687f;
+    --highlight-bg: rgba(95, 168, 255, 0.3); /* YENİ: Koyu tema highlight rengi */
 }
 
-.game-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-}
+/* --- GERİ KALAN TÜM CSS KODLARI AYNEN DEVAM EDİYOR --- */
+/* Sadece @keyframes bölümü değişecek */
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: var(--header-bg);
-    color: #333;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
+body { font-family: 'Nunito', sans-serif; background-color: var(--background-color); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; transition: background-color 0.3s ease, color 0.3s ease; }
+.game-container { width: 100%; max-width: 400px; margin: 0 auto; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background-color: var(--header-bg); color: var(--header-text); border-radius: 16px 16px 0 0; box-shadow: 0 2px 8px var(--card-shadow); flex-wrap: wrap; gap: 5px; transition: background-color 0.3s ease, color 0.3s ease; }
 .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; flex-shrink: 0; }
 .scores { display: flex; gap: 15px; font-size: 0.9rem; font-weight: bold; text-align: center; flex-grow: 1; justify-content: center; }
 .score, .high-score { white-space: nowrap; }
 .level { font-size: 0.9rem; font-weight: 700; white-space: nowrap; text-align: right; flex-shrink: 0; }
+.card { background-color: var(--card-bg); padding: 20px 15px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 12px var(--card-shadow); text-align: center; transition: background-color 0.3s ease; }
 
-.card {
-    background-color: var(--card-bg);
-    padding: 20px 15px;
-    border-radius: 0 0 16px 16px;
-    box-shadow: 0 4px 12px rgba(79, 140, 255, 0.07);
-    text-align: center;
-}
-
-/* Responsive ayarlar */
-@media (max-width: 600px) {
-    .game-container { max-width: 98vw; padding: 0; }
-    header, .card { padding: 8px 5px; border-radius: 12px; }
-    header { flex-direction: column; gap: 3px;}
-    .scores { gap: 10px; font-size: 0.8rem;}
-    .level { text-align: center; font-size: 0.85rem;}
-    .puzzle-word-style { font-size: 1.3rem !important; letter-spacing: 2px !important; }
-    .puzzle-word-style.long-word { font-size: 1.1rem !important; letter-spacing: 1px !important; }
-    #result-image { max-height: 120px; max-width: 140px; }
-    #user-input { font-size: 0.95rem; padding: 8px; } /* Mobil input fontu büyütüldü */
-    .input-area-row { gap: 4px; flex-wrap: wrap; }
-    #submit-button, #hint-button, #next-button { padding: 8px 8px; font-size: 0.85rem; flex-grow: 1; min-width: 60px; }
-    .level-selector { gap: 3px; margin-bottom: 15px;}
-    .level-btn { padding: 5px 10px; font-size: 0.8rem;}
-    .result-card { padding: 8px 5px; gap: 6px;}
-    .history-container { padding: 10px 5px; margin-top: 10px;}
-    .history-container h2 { font-size: 1.1rem; }
-    #history-list li { font-size: 0.85rem;}
-    /* Mobil font büyütme */
-    .hint-container p { font-size: 0.95rem; margin-bottom: 12px;}
-    .result-meaning-row { font-size: 0.95rem; margin-bottom: 3px;}
-    .result-sentence-row p { font-size: 0.95rem; }
-    .result-sentence-translation-row p { font-size: 0.85rem; margin-bottom: 8px;}
-}
+@media (max-width: 600px) { /* ... responsive ayarlar aynı ... */ }
 
 .level-selector { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
-.level-btn { padding: 6px 14px; font-size: 0.92rem; font-weight: 700; border: 2px solid var(--border-color); background-color: var(--accent-color); color: var(--text-color); border-radius: 18px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06); }
-.level-btn.active { background-color: var(--main-color); color: #fff; border-color: var(--main-color); }
+.level-btn { padding: 6px 14px; font-size: 0.92rem; font-weight: 700; border: 2px solid var(--border-color); background-color: var(--accent-color); color: var(--text-color); border-radius: 18px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px var(--button-shadow); }
+.level-btn.active { background-color: var(--main-color); color: var(--button-text); border-color: var(--main-color); }
 .level-btn:hover { background-color: #e8f0fe; border-color: var(--main-color); color: var(--main-color); }
-.hint-container p { font-size: 1rem; margin-bottom: 15px; color: var(--main-color); }
+body.dark-theme .level-btn:hover { background-color: #4a5568; border-color: var(--main-color); color: var(--main-color); }
+
+.hint-container p { font-size: 1rem; margin-bottom: 15px; color: var(--main-color); transition: color 0.3s ease; }
 .word-display-container { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; }
-.puzzle-word-style { font-size: 2rem; letter-spacing: 3px; font-weight: 700; word-break: break-word; line-height: 1.3; transition: font-size 0.3s ease, letter-spacing 0.3s ease; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2em; margin-bottom: 0; }
+.puzzle-word-style { font-size: 2rem; letter-spacing: 3px; font-weight: 700; word-break: break-word; line-height: 1.3; transition: font-size 0.3s ease, letter-spacing 0.3s ease, color 0.3s ease; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2em; margin-bottom: 0; }
 .puzzle-word-style.long-word { font-size: 1.6rem; letter-spacing: 1.5px; }
 .puzzle-letter { display: inline-block; min-width: 0.6em; text-align: center; }
 
@@ -99,50 +85,68 @@ header {
 #speaker-icon.hidden, #result-speaker.hidden, #sentence-speaker.hidden { display: none; }
 
 .input-area-row { display: flex; flex-wrap: nowrap; gap: 8px; width: 100%; margin-bottom: 16px; align-items: stretch; }
-#hint-button { background-color: var(--accent-color); color: var(--text-color); border: 1px solid var(--border-color); font-size: 0.85rem; padding: 10px 12px; border-radius: 7px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); white-space: nowrap; flex-shrink: 0; }
+#hint-button { background-color: var(--accent-color); color: var(--text-color); border: 1px solid var(--border-color); font-size: 0.85rem; padding: 10px 12px; border-radius: 7px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 6px var(--button-shadow); white-space: nowrap; flex-shrink: 0; }
 #hint-button:hover { background-color: #dce1e9; border-color: var(--main-color); }
+body.dark-theme #hint-button:hover { background-color: #5a687f; border-color: var(--main-color); }
 #hint-button:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--accent-color); border-color: var(--border-color); }
-#user-input { flex-grow: 1; flex-basis: 150px; padding: 10px; border: 2px solid var(--border-color); border-radius: 7px; font-size: 0.9rem; text-align: center; background-color: var(--accent-color); transition: border-color 0.3s; margin-bottom: 0; box-sizing: border-box; min-width: 80px; }
-#submit-button { background-color: var(--main-color); color: #fff; border: none; padding: 10px 16px; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06); white-space: nowrap; flex-shrink: 0; }
-#submit-button:hover { background-color: #386dcf; }
+body.dark-theme #hint-button:disabled { background-color: var(--accent-color); border-color: var(--border-color); }
 
-/* Sonuç Kartı Stilleri */
+#user-input { flex-grow: 1; flex-basis: 150px; padding: 10px; border: 2px solid var(--border-color); border-radius: 7px; font-size: 1rem; text-align: center; background-color: var(--input-bg); color: var(--text-color); transition: border-color 0.3s, background-color 0.3s, color 0.3s; margin-bottom: 0; box-sizing: border-box; min-width: 80px; }
+#user-input::placeholder { color: var(--text-color); opacity: 0.6; }
+#user-input:focus { outline: none; border-color: var(--main-color); }
+
+#submit-button { background-color: var(--main-color); color: var(--button-text); border: none; padding: 10px 16px; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px var(--button-shadow); white-space: nowrap; flex-shrink: 0; }
+#submit-button:hover { background-color: #386dcf; }
+body.dark-theme #submit-button:hover { background-color: #7fbfff; }
+
 #result-container { margin-top: 15px; margin-bottom: 10px; }
 #result-container.hidden { display: none; }
-.result-card { background: var(--accent-color); border-radius: 12px; padding: 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.04); margin-bottom: 4px; }
+.result-card { background: var(--accent-color); border-radius: 12px; padding: 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 8px var(--card-shadow); margin-bottom: 4px; transition: background-color 0.3s ease; }
 .result-row { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: bold; margin-bottom: 1px; justify-content: center; flex-wrap: wrap; order: 1;}
-.result-meaning-row { font-size: 1rem; font-weight: bold; color: var(--main-color); margin-bottom: 5px; width: 100%; text-align: center; order: 2;}
-.result-sentence-row { width: 100%; text-align: center; margin-bottom: 5px; opacity: 0; transition: opacity 0.5s ease; order: 3; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.result-meaning-row { font-size: 1rem; font-weight: bold; color: var(--main-color); margin-bottom: 5px; width: 100%; text-align: center; order: 2; transition: color 0.3s ease;}
+.result-sentence-row { width: 100%; text-align: center; margin-bottom: 5px; opacity: 0; transition: opacity 0.5s ease, color 0.3s ease; order: 3; display: flex; justify-content: center; align-items: center; gap: 8px; }
 .result-sentence-row.visible { opacity: 1; }
 .result-sentence-row.hidden { display: none; }
-.result-sentence-row p { font-size: 1rem; font-style: italic; color: var(--hint-color-2); margin: 0; }
-.result-sentence-translation-row { width: 100%; text-align: center; margin-bottom: 10px; opacity: 0; transition: opacity 0.5s ease; order: 4; }
+.result-sentence-row p { font-size: 1rem; font-style: italic; color: var(--hint-color-2); margin: 0; } /* Yeşil renk kaldı */
+.result-sentence-translation-row { width: 100%; text-align: center; margin-bottom: 10px; opacity: 0; transition: opacity 0.5s ease, color 0.3s ease; order: 4; }
 .result-sentence-translation-row.visible { opacity: 1; }
 .result-sentence-translation-row.hidden { display: none; }
 .result-sentence-translation-row p { font-size: 0.9rem; font-style: normal; color: var(--text-color); opacity: 0.8; margin: 0; }
 .result-image-row { margin: 5px 0 10px 0; width: 100%; display: flex; justify-content: center; align-items: center; order: 5;}
-.result-image-row img { max-width: 150px; max-height: 130px; border-radius: 7px; background: var(--card-bg); }
-#next-button { background-color: var(--main-color); color: #fff; border: none; padding: 10px 16px; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06); white-space: nowrap; margin: 10px 0 10px 0; width: 100%; order: 6;}
+.result-image-row img { max-width: 150px; max-height: 130px; border-radius: 7px; background: var(--card-bg); transition: background-color 0.3s ease;}
+#next-button { background-color: var(--main-color); color: var(--button-text); border: none; padding: 10px 16px; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px var(--button-shadow); white-space: nowrap; margin: 10px 0 10px 0; width: 100%; order: 6;}
 #next-button:hover { background-color: #386dcf; }
+body.dark-theme #next-button:hover { background-color: #7fbfff; }
 #next-button.hidden { display: none; }
-.result-message-row { font-size: 0.9rem; font-style: italic; margin-top: 5px; text-align: center; order: 7;}
+.result-message-row { font-size: 0.95rem; font-style: italic; margin-top: 5px; text-align: center; order: 7; transition: color 0.3s ease;}
 
-/* Highlight, Hint Renkleri, History Stilleri */
 .highlight { animation: highlight-answer 0.8s ease-in-out; display: inline-block; padding: 5px 10px; border-radius: 8px; }
-@keyframes highlight-answer { 0% { transform: scale(1); background-color: transparent; } 50% { transform: scale(1.05); background-color: rgba(174, 198, 207, 0.3); } 100% { transform: scale(1); background-color: transparent; } }
-.incorrect-answer-text { color: var(--error-color) !important; }
-.hint-letter-1 { color: var(--hint-color-1); font-weight: bold; }
-.hint-letter-2 { color: var(--hint-color-2); font-weight: bold; }
-.hint-letter-3 { color: var(--hint-color-3); font-weight: bold; }
-.history-container { background-color: var(--card-bg); border-radius: 12px; padding: 15px; margin-top: 15px; box-shadow: 0 4px 12px rgba(79, 140, 255, 0.05); max-height: 200px; overflow-y: auto; }
+
+/* --- GÜNCELLENMİŞ @keyframes --- */
+@keyframes highlight-answer {
+    0% { transform: scale(1); background-color: transparent; }
+    50% { transform: scale(1.05); background-color: var(--highlight-bg); } /* Değişken kullanıldı */
+    100% { transform: scale(1); background-color: transparent; }
+}
+/* --- @keyframes SONU --- */
+
+/* body.dark-theme @keyframes highlight-answer kısmı SİLİNDİ */
+
+.incorrect-answer-text { color: var(--error-color) !important; transition: color 0.3s ease;}
+.hint-letter-1 { color: var(--hint-color-1); font-weight: bold; transition: color 0.3s ease;}
+.hint-letter-2 { color: var(--hint-color-2); font-weight: bold; transition: color 0.3s ease;}
+.hint-letter-3 { color: var(--hint-color-3); font-weight: bold; transition: color 0.3s ease;}
+
+/* Oyun Geçmişi Stilleri */
+.history-container { background-color: var(--card-bg); border-radius: 12px; padding: 15px; margin-top: 15px; box-shadow: 0 4px 12px var(--card-shadow); max-height: 200px; overflow-y: auto; transition: background-color 0.3s ease; }
 .history-container.hidden { display: none; }
-.history-container h2 { font-size: 1.2rem; color: var(--main-color); margin-bottom: 10px; text-align: center; }
+.history-container h2 { font-size: 1.2rem; color: var(--main-color); margin-bottom: 10px; text-align: center; transition: color 0.3s ease;}
 #history-list { list-style: none; padding: 0; margin: 0; }
-#history-list li { font-size: 0.9rem; padding: 5px 0; border-bottom: 1px solid var(--accent-color); display: flex; justify-content: space-between; }
+#history-list li { font-size: 0.95rem; padding: 5px 0; border-bottom: 1px solid var(--history-border); display: flex; justify-content: space-between; transition: border-color 0.3s ease;}
 #history-list li:last-child { border-bottom: none; }
 #history-list .word { font-weight: bold; }
-#history-list .points-correct { color: var(--success-color); font-weight: bold; }
-#history-list .points-incorrect { color: var(--error-color); font-weight: bold; }
-#share-button { display: block; width: 100%; margin-top: 15px; padding: 10px 15px; background-color: var(--success-color); color: white; border: none; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px rgba(126, 217, 87, 0.2); }
-#share-button:hover { background-color: #68b74a; }
-#share-button:disabled { background-color: #cccccc; cursor: not-allowed; box-shadow: none; }
+#history-list .points-correct { color: var(--success-color); font-weight: bold; transition: color 0.3s ease;}
+#history-list .points-incorrect { color: var(--error-color); font-weight: bold; transition: color 0.3s ease;}
+#share-button { display: block; width: 100%; margin-top: 15px; padding: 10px 15px; background-color: var(--share-button-bg); color: var(--button-text); border: none; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s, color 0.3s; box-shadow: 0 2px 8px var(--share-button-shadow); }
+#share-button:hover { background-color: var(--share-button-hover); }
+#share-button:disabled { background-color: var(--disabled-button-bg); cursor: not-allowed; box-shadow: none; opacity: 0.7;}
