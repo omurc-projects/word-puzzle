@@ -1,4 +1,4 @@
-/* style.css (CÜMLE ÇEVİRİSİ VE HOPARLÖRÜ EKLENMİŞ NİHAİ VERSİYON) */
+/* style.css (SYNTAX HATALARI KONTROL EDİLMİŞ NİHAİ VERSİYON) */
 
 :root {
     --background-color: #f5f6fa;
@@ -15,19 +15,73 @@
     --hint-color-3: #0000FF; /* Blue */
 }
 
-body { font-family: 'Nunito', sans-serif; background-color: var(--background-color); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
-.game-container { width: 100%; max-width: 400px; margin: 0 auto; }
-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background-color: var(--header-bg); color: #333; border-radius: 16px 16px 0 0; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08); flex-wrap: wrap; gap: 5px; }
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--header-bg);
+    color: #333;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
 .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; flex-shrink: 0; }
 .scores { display: flex; gap: 15px; font-size: 0.9rem; font-weight: bold; text-align: center; flex-grow: 1; justify-content: center; }
 .score, .high-score { white-space: nowrap; }
 .level { font-size: 0.9rem; font-weight: 700; white-space: nowrap; text-align: right; flex-shrink: 0; }
-.card { background-color: var(--card-bg); padding: 20px 15px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 12px rgba(79, 140, 255, 0.07); text-align: center; }
 
-@media (max-width: 600px) { /* Responsive adjustments */
-    .game-container { max-width: 98vw; padding: 0; } header, .card { padding: 8px 5px; border-radius: 12px; } header { flex-direction: column; gap: 3px;} .scores { gap: 10px; font-size: 0.8rem;} .level { text-align: center; } .puzzle-word-style { font-size: 1.3rem !important; letter-spacing: 2px !important; } .puzzle-word-style.long-word { font-size: 1.1rem !important; letter-spacing: 1px !important; } #result-image { max-height: 120px; max-width: 140px; } #user-input { font-size: 0.9rem; padding: 8px; } .input-area-row { gap: 4px; flex-wrap: wrap; } #submit-button, #hint-button, #next-button { padding: 8px 8px; font-size: 0.85rem; flex-grow: 1; min-width: 60px; } .level-selector { gap: 3px; margin-bottom: 15px;} .level-btn { padding: 5px 10px; font-size: 0.8rem;} .result-card { padding: 8px 5px; } .history-container { padding: 10px 5px; margin-top: 10px;} .history-container h2 { font-size: 1.1rem; } #history-list li { font-size: 0.85rem;}
-    .result-sentence-row p { font-size: 0.9rem; } #sentence-speaker { font-size: 1.4rem; }
-    .result-sentence-translation-row p { font-size: 0.8rem; } /* Çeviri fontunu da küçült */
+.card {
+    background-color: var(--card-bg);
+    padding: 20px 15px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 12px rgba(79, 140, 255, 0.07);
+    text-align: center;
+}
+
+/* Responsive ayarlar */
+@media (max-width: 600px) {
+    .game-container { max-width: 98vw; padding: 0; }
+    header, .card { padding: 8px 5px; border-radius: 12px; }
+    header { flex-direction: column; gap: 3px;}
+    .scores { gap: 10px; font-size: 0.8rem;}
+    .level { text-align: center; font-size: 0.85rem;}
+    .puzzle-word-style { font-size: 1.3rem !important; letter-spacing: 2px !important; }
+    .puzzle-word-style.long-word { font-size: 1.1rem !important; letter-spacing: 1px !important; }
+    #result-image { max-height: 120px; max-width: 140px; }
+    #user-input { font-size: 0.95rem; padding: 8px; } /* Mobil input fontu büyütüldü */
+    .input-area-row { gap: 4px; flex-wrap: wrap; }
+    #submit-button, #hint-button, #next-button { padding: 8px 8px; font-size: 0.85rem; flex-grow: 1; min-width: 60px; }
+    .level-selector { gap: 3px; margin-bottom: 15px;}
+    .level-btn { padding: 5px 10px; font-size: 0.8rem;}
+    .result-card { padding: 8px 5px; gap: 6px;}
+    .history-container { padding: 10px 5px; margin-top: 10px;}
+    .history-container h2 { font-size: 1.1rem; }
+    #history-list li { font-size: 0.85rem;}
+    /* Mobil font büyütme */
+    .hint-container p { font-size: 0.95rem; margin-bottom: 12px;}
+    .result-meaning-row { font-size: 0.95rem; margin-bottom: 3px;}
+    .result-sentence-row p { font-size: 0.95rem; }
+    .result-sentence-translation-row p { font-size: 0.85rem; margin-bottom: 8px;}
 }
 
 .level-selector { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
@@ -52,59 +106,34 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 #submit-button { background-color: var(--main-color); color: #fff; border: none; padding: 10px 16px; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06); white-space: nowrap; flex-shrink: 0; }
 #submit-button:hover { background-color: #386dcf; }
 
+/* Sonuç Kartı Stilleri */
 #result-container { margin-top: 15px; margin-bottom: 10px; }
 #result-container.hidden { display: none; }
 .result-card { background: var(--accent-color); border-radius: 12px; padding: 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.04); margin-bottom: 4px; }
-.result-row { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: bold; margin-bottom: 1px; justify-content: center; flex-wrap: wrap; order: 1;} /* Sıra 1 */
-.result-meaning-row { font-size: 1rem; font-weight: bold; color: var(--main-color); margin-bottom: 5px; width: 100%; text-align: center; order: 2;} /* Sıra 2 */
-
-/* Örnek Cümle Stili */
-.result-sentence-row {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 5px; /* Çeviriyle arasına boşluk */
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    order: 3; /* Sıra 3 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
+.result-row { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: bold; margin-bottom: 1px; justify-content: center; flex-wrap: wrap; order: 1;}
+.result-meaning-row { font-size: 1rem; font-weight: bold; color: var(--main-color); margin-bottom: 5px; width: 100%; text-align: center; order: 2;}
+.result-sentence-row { width: 100%; text-align: center; margin-bottom: 5px; opacity: 0; transition: opacity 0.5s ease; order: 3; display: flex; justify-content: center; align-items: center; gap: 8px; }
 .result-sentence-row.visible { opacity: 1; }
 .result-sentence-row.hidden { display: none; }
 .result-sentence-row p { font-size: 1rem; font-style: italic; color: var(--hint-color-2); margin: 0; }
-
-/* Cümle Çevirisi Stili */
-.result-sentence-translation-row {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px; /* Görselle arasına boşluk */
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    order: 4; /* Sıra 4 */
-}
+.result-sentence-translation-row { width: 100%; text-align: center; margin-bottom: 10px; opacity: 0; transition: opacity 0.5s ease; order: 4; }
 .result-sentence-translation-row.visible { opacity: 1; }
 .result-sentence-translation-row.hidden { display: none; }
 .result-sentence-translation-row p { font-size: 0.9rem; font-style: normal; color: var(--text-color); opacity: 0.8; margin: 0; }
-
-.result-image-row { margin: 5px 0 10px 0; width: 100%; display: flex; justify-content: center; align-items: center; order: 5;} /* Sıra 5 */
+.result-image-row { margin: 5px 0 10px 0; width: 100%; display: flex; justify-content: center; align-items: center; order: 5;}
 .result-image-row img { max-width: 150px; max-height: 130px; border-radius: 7px; background: var(--card-bg); }
-
-#next-button { background-color: var(--main-color); color: #fff; border: none; padding: 10px 16px; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06); white-space: nowrap; margin: 10px 0 10px 0; width: 100%; order: 6;} /* Sıra 6 */
+#next-button { background-color: var(--main-color); color: #fff; border: none; padding: 10px 16px; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; box-shadow: 0 2px 8px rgba(79, 140, 255, 0.06); white-space: nowrap; margin: 10px 0 10px 0; width: 100%; order: 6;}
 #next-button:hover { background-color: #386dcf; }
 #next-button.hidden { display: none; }
+.result-message-row { font-size: 0.9rem; font-style: italic; margin-top: 5px; text-align: center; order: 7;}
 
-.result-message-row { font-size: 0.9rem; font-style: italic; margin-top: 5px; text-align: center; order: 7;} /* Sıra 7 */
-
+/* Highlight, Hint Renkleri, History Stilleri */
 .highlight { animation: highlight-answer 0.8s ease-in-out; display: inline-block; padding: 5px 10px; border-radius: 8px; }
 @keyframes highlight-answer { 0% { transform: scale(1); background-color: transparent; } 50% { transform: scale(1.05); background-color: rgba(174, 198, 207, 0.3); } 100% { transform: scale(1); background-color: transparent; } }
 .incorrect-answer-text { color: var(--error-color) !important; }
 .hint-letter-1 { color: var(--hint-color-1); font-weight: bold; }
 .hint-letter-2 { color: var(--hint-color-2); font-weight: bold; }
 .hint-letter-3 { color: var(--hint-color-3); font-weight: bold; }
-
-/* Oyun Geçmişi Stilleri */
 .history-container { background-color: var(--card-bg); border-radius: 12px; padding: 15px; margin-top: 15px; box-shadow: 0 4px 12px rgba(79, 140, 255, 0.05); max-height: 200px; overflow-y: auto; }
 .history-container.hidden { display: none; }
 .history-container h2 { font-size: 1.2rem; color: var(--main-color); margin-bottom: 10px; text-align: center; }
